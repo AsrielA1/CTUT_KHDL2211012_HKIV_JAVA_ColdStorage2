@@ -1,6 +1,7 @@
 package coldstorage2.models.details;
 
 import coldstorage2.general.Database;
+import java.util.ArrayList;
 
 public class MInputDetail extends Database{
     private int inputId;
@@ -63,6 +64,5 @@ public class MInputDetail extends Database{
     public void setInputNote(String inputNote) {
         this.inputNote = inputNote;
     }
-    
     
 }

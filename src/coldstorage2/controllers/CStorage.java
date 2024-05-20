@@ -7,8 +7,12 @@ import coldstorage2.models.details.MStorageDetail;
 import java.util.ArrayList;
 
 import java.sql.DriverManager;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class CStorage extends Database{
+    private final MStorage storageFn = new MStorage();
+    
     public CStorage(){}
     
     public boolean insert(MStorage _storage){
@@ -73,5 +77,33 @@ public class CStorage extends Database{
         }
         
         return false;
+    }
+    
+    public void show(JTable _tblStorage){
+        DefaultTableModel dtModel = (DefaultTableModel)_tblStorage.getModel();
+        dtModel.setRowCount(0);
+        
+        try {
+            for (MStorage _storage: storageFn.getAll()){
+                dtModel.addRow(_storage.toObjectArr());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error in CStorage.show");
+        }
+    }
+    
+    public void showDetail(JTable _tblStorageDetail){
+        DefaultTableModel dtModel = (DefaultTableModel)_tblStorageDetail.getModel();
+        dtModel.setRowCount(0);
+        
+        try{
+            for (MStorageDetail _storageDetail: storageFn.getDetail()){
+                dtModel.addRow(_storageDetail.toObjArr());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error in CStorage.showDetail");
+        }
     }
 }

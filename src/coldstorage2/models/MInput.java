@@ -10,6 +10,8 @@ import javax.swing.JTextField;
 
 public class MInput extends Database{
     private int inputId;
+    private String inputDate;
+    private String inputTime;
     private Date inputDateTime;
     private float totalWeight;
     private float totalCost;
@@ -28,6 +30,33 @@ public class MInput extends Database{
         this.totalCost = 0;
         this.inputNote = _tfInputNote.getText();
     }
+
+    public MInput(int inputId, String inputDate, String inputTime, float totalWeight, float totalCost, String inputNote) {
+        this.inputId = inputId;
+        this.inputDate = inputDate;
+        this.inputTime = inputTime;
+        this.totalWeight = totalWeight;
+        this.totalCost = totalCost;
+        this.inputNote = inputNote;
+    }
+
+    public String getInputDate() {
+        return inputDate;
+    }
+
+    public void setInputDate(String inputDate) {
+        this.inputDate = inputDate;
+    }
+
+    public String getInputTime() {
+        return inputTime;
+    }
+
+    public void setInputTime(String inputTime) {
+        this.inputTime = inputTime;
+    }
+    
+    
 
     public int getInputId() {
         return inputId;
@@ -67,6 +96,48 @@ public class MInput extends Database{
 
     public void setInputNote(String inputNote) {
         this.inputNote = inputNote;
+    }
+    
+    public Object[] toObjArr(){
+        return new Object[]{inputId, inputDate, inputTime, totalWeight, totalCost, inputNote};
+    }
+    
+    public ArrayList<MInput> getAll(){
+        ArrayList<MInput> inputs = new ArrayList<>();
+        
+        int inputId;
+        String inputDate;
+        String inputTime;
+        float totalWeight;
+        float totalCost;
+        String inputNote;
+        
+        try{                    
+            Class.forName("org.postgresql.Driver");            
+            connection = DriverManager.getConnection(url, dbUsername, dbPassword);
+            
+            query = "SELECT * FROM lichsu_nhap";
+            pstmt = connection.prepareStatement(query);
+            
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                inputId = rs.getInt(1);
+                inputDate = rs.getString(2);
+                inputTime = rs.getString(3);
+                totalWeight = rs.getFloat(4);
+                totalCost = rs.getFloat(5);
+                inputNote = rs.getString(6);
+                
+                inputs.add(new MInput(inputId, inputDate, inputTime, totalWeight, totalCost, inputNote));
+            }
+            
+            return inputs;
+        }
+        catch(Exception e){
+            System.out.println("Error in MInput.getAll()");
+        }
+        
+        return inputs;
     }
     
     public ArrayList<MInputDetail> getInputDetail(){

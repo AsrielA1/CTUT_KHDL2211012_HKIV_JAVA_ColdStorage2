@@ -17,6 +17,15 @@ public class MStorage extends Database{
     private float currentWeight;
     private float maxWeight;
     private String storageNote;
+    
+    public MStorage(){}
+
+    public MStorage(int storageId, float currentWeight, float maxWeight, String storageNote) {
+        this.storageId = storageId;
+        this.currentWeight = currentWeight;
+        this.maxWeight = maxWeight;
+        this.storageNote = storageNote;
+    }
 
     public MStorage(int storageId, float maxWeight, String storageNote) {
         this.storageId = storageId;
@@ -63,6 +72,42 @@ public class MStorage extends Database{
         this.storageNote = storageNote;
     }
     
+    public Object[] toObjectArr(){
+        return new Object[]{storageId, currentWeight, maxWeight, storageNote};
+    }
+    
+    public ArrayList<MStorage> getAll(){
+        ArrayList<MStorage> storageData = new ArrayList<>();
+        
+        int _storageId;
+        float _currentWeight;
+        float _maxWeight;
+        String _storageNote;
+        
+        try {            
+            Class.forName("org.postgresql.Driver");            
+            connection = DriverManager.getConnection(url, dbUsername, dbPassword);
+            
+            query = "SELECT * FROM danhmuc_kho";
+            pstmt = connection.prepareStatement(query);
+            
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                _storageId = rs.getInt(1);
+                _currentWeight = rs.getFloat(2);
+                _maxWeight = rs.getFloat(3);
+                _storageNote = rs.getString(4);
+                
+                storageData.add(new MStorage(_storageId, _currentWeight, _maxWeight, _storageNote));
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error in MStorage.getAll()");
+        }
+        
+        return storageData;
+    }
+    
     public ArrayList<MStorageDetail> getDetail(){
         ArrayList<MStorageDetail> _storageDetail = new ArrayList<>();
         
@@ -75,7 +120,7 @@ public class MStorage extends Database{
             connection = DriverManager.getConnection(url, dbUsername, dbPassword);
         
             query = """
-                    SELECT danhmuc_sanpham.*, chitiet_kho.khoiluong
+                    SELECT danhmuc_sanpham.ma_sp, danhmuc_sanpham.ten_sp, chitiet_kho.khoiluong
                     FROM chitiet_kho
                     JOIN danhmuc_sanpham ON danhmuc_sanpham.ma_sp = chitiet_kho.ma_sp
                     WHERE chitiet_kho.ma_kho = ?;
@@ -87,11 +132,9 @@ public class MStorage extends Database{
             while (rs.next()){
                 _productId = rs.getInt(1);
                 _productName = rs.getString(2);
-                _productNote = rs.getString(3);
                 _productWeight = rs.getFloat(4);
-                MProduct product = new MProduct(_productId, _productName, _productNote);
                 
-                _storageDetail.add(new MStorageDetail(product,_productWeight));
+                _storageDetail.add(new MStorageDetail(_productId, _productName,_productWeight));
                 
                 return _storageDetail;
             }

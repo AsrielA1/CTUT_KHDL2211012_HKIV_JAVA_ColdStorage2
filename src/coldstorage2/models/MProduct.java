@@ -1,6 +1,8 @@
 package coldstorage2.models;
 
 import coldstorage2.general.Database;
+import java.sql.DriverManager;
+import java.util.ArrayList;
 import javax.swing.JTextField;
 
 public class MProduct extends Database{
@@ -10,10 +12,7 @@ public class MProduct extends Database{
     private float productPrice;
     private float productRevenue;
     
-    public MProduct(String productName, String productNote) {
-        this.productName = productName;
-        this.productNote = productNote;
-    }    
+    public MProduct(){}
 
     public MProduct(JTextField _tfProductName, JTextField _tfProductNote){
         this.productName = _tfProductName.getText();
@@ -80,4 +79,47 @@ public class MProduct extends Database{
         this.productRevenue = productRevenue;
     }    
     
+    public Object[] toObjectArr(){
+        return new Object[]{productId, productName, productNote, productPrice, productRevenue};
+    }
+    
+    public ArrayList<MProduct> getAll(){
+        ArrayList<MProduct> products = new ArrayList<>();
+        
+        int _productId;
+        String _productName;
+        String _productNote;
+        float _productPrice;
+        float _productRevenue;
+        
+        try {            
+            Class.forName("org.postgresql.Driver");            
+            connection = DriverManager.getConnection(url, dbUsername, dbPassword);
+            
+            query = """
+                    SELECT san_pham.*, giatri_sanpham.chiphi_nhap, chiphi_nhap.doanhthu_xuat  
+                    FROM san_pham
+                    JOIN giatri_sanpham ON giatri_sanpham.ma_sp = san_pham.ma_sp;
+                    """;
+            pstmt = connection.prepareStatement(query);
+            
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                _productId = rs.getInt(1);
+                _productName = rs.getString(2);
+                _productNote = rs.getString(3);
+                _productPrice = rs.getFloat(4);
+                _productRevenue = rs.getFloat(5);
+                
+                products.add(new MProduct(_productId, _productName, _productNote, _productPrice, _productRevenue));
+            }
+            
+            return products;
+        }
+        catch (Exception e){
+            System.out.println("Error in MProduct.getAll");
+        }
+        
+        return products;
+    }
 }

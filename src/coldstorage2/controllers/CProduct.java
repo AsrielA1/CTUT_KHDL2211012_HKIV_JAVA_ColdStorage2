@@ -3,8 +3,12 @@ package coldstorage2.controllers;
 import coldstorage2.general.Database;
 import coldstorage2.models.MProduct;
 import java.sql.DriverManager;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class CProduct extends Database{
+    
+    private final MProduct prodcuctFn = new MProduct();
    
     public CProduct(){}
    
@@ -86,5 +90,19 @@ public class CProduct extends Database{
         }
         
         return false;
+    }
+    
+    public void show(JTable tblProduct){
+        DefaultTableModel dtModel = (DefaultTableModel)tblProduct.getModel();
+        dtModel.setRowCount(0);
+        
+        try{
+            for (MProduct _product: prodcuctFn.getAll()){
+                dtModel.addRow(_product.toObjectArr());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error in CProduct.show\n" + e);
+        }
     }
 }
