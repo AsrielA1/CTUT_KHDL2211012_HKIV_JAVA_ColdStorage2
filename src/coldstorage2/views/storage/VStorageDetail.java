@@ -4,18 +4,30 @@
  */
 package coldstorage2.views.storage;
 
+import coldstorage2.controllers.CStorage;
+import coldstorage2.models.MStorage;
+
 /**
  *
  * @author an
  */
 public class VStorageDetail extends javax.swing.JDialog {
 
-    /**
-     * Creates new form VStorageDetail
-     */
+    private final CStorage storageFn = new CStorage();
+    private final MStorage storageM = new MStorage();
+    
     public VStorageDetail(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+    
+    public VStorageDetail(java.awt.Frame parent, boolean modal, int _storageId) {
+        super(parent, modal);
+        initComponents();
+        
+        tfStorageId.setText(String.valueOf(_storageId));
+        storageFn.showDetail(tfStorageId, tblStorage);
+        tfUsedPercent.setText(String.valueOf(storageM.getUsedPercent(_storageId)));
     }
 
     /**
@@ -29,13 +41,13 @@ public class VStorageDetail extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfStorageId = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        tblStorage = new javax.swing.JTable();
+        tfUsedPercent = new javax.swing.JTextField();
+        tfUsedWeight = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(640, 720));
@@ -48,30 +60,30 @@ public class VStorageDetail extends javax.swing.JDialog {
 
         jLabel2.setText("Mã kho");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 90, -1, -1));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
+        getContentPane().add(tfStorageId, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
 
         jLabel3.setText("Khối lượng");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, -1, -1));
 
         jLabel4.setText("Tỉ lệ đã dùng");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblStorage.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã sản phẩm", "Tên sản phẩm", "Khối lượng"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblStorage);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 640, 560));
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, 30));
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 90, -1, 30));
+        getContentPane().add(tfUsedPercent, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 100, -1, -1));
+        getContentPane().add(tfUsedWeight, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 130, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -120,14 +132,14 @@ public class VStorageDetail extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tblStorage;
+    private javax.swing.JTextField tfStorageId;
+    private javax.swing.JTextField tfUsedPercent;
+    private javax.swing.JTextField tfUsedWeight;
     // End of variables declaration//GEN-END:variables
 }

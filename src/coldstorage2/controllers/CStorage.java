@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import java.sql.DriverManager;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class CStorage extends Database{
@@ -93,17 +94,39 @@ public class CStorage extends Database{
         }
     }
     
-    public void showDetail(JTable _tblStorageDetail){
+    public void showDetail(JTextField _tfStorageId, JTable _tblStorageDetail){
         DefaultTableModel dtModel = (DefaultTableModel)_tblStorageDetail.getModel();
         dtModel.setRowCount(0);
         
+        int _storageId = Integer.parseInt(_tfStorageId.getText());
+        
         try{
-            for (MStorageDetail _storageDetail: storageFn.getDetail()){
+            for (MStorageDetail _storageDetail: storageFn.getDetail(_storageId)){
                 dtModel.addRow(_storageDetail.toObjArr());
             }
         }
         catch (Exception e){
             System.out.println("Error in CStorage.showDetail");
         }
+    }
+    
+    public int newId(){
+        try{                        
+            Class.forName("org.postgresql.Driver");            
+            connection = DriverManager.getConnection(url, dbUsername, dbPassword);
+        
+            query = "SELECT MAX(ma_kho) + 1 FROM danhmuc_kho;";
+            pstmt = connection.prepareStatement(query);
+            
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                return rs.getInt(1);
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error in CStorage.getMax");
+        }
+        
+        return 0;
     }
 }

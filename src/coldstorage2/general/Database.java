@@ -9,6 +9,8 @@ import java.util.Date;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Database {
     protected String url = "jdbc:postgresql://localhost:5432/postgres";
@@ -41,5 +43,13 @@ public class Database {
         String timeString = timeFormat.format(_date);
             
         return timeString;
+    }
+    
+    public String getTableValue(JTable _tblAny, int col){
+        int row = _tblAny.getSelectedRow();
+        DefaultTableModel dtModel = (DefaultTableModel)_tblAny.getModel();
+        
+        return dtModel.getValueAt(row, col).toString();
+        
     }
 }

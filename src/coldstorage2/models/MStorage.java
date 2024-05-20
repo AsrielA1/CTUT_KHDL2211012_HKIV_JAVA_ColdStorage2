@@ -6,7 +6,11 @@ import coldstorage2.models.details.MStorageDetail;
 
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 record Pair<K, V>(K key, V value) {
     // intentionally empty
@@ -20,6 +24,12 @@ public class MStorage extends Database{
     
     public MStorage(){}
 
+    public MStorage(int storageId) {
+        this.storageId = storageId;
+    }
+    
+    
+
     public MStorage(int storageId, float currentWeight, float maxWeight, String storageNote) {
         this.storageId = storageId;
         this.currentWeight = currentWeight;
@@ -32,12 +42,45 @@ public class MStorage extends Database{
         this.currentWeight = 0;
         this.maxWeight = maxWeight;
         this.storageNote = storageNote;
+        
     }
     
     public MStorage(JTextField _tfMaxWeight, JTextField _tfStorageNote) {
         this.currentWeight = 0;
-        this.maxWeight = Float.parseFloat(_tfMaxWeight.getText());
+        
         this.storageNote = _tfStorageNote.getText();
+    }
+
+    public MStorage(float maxWeight, String storageNote) {
+        this.maxWeight = maxWeight;
+        this.storageNote = storageNote;
+    }
+    
+    public MStorage checkValid(JTextField _tfMaxWeight, JTextArea _tfStorageNote){
+        
+        try{
+            float _maxWeight = Float.parseFloat(_tfMaxWeight.getText());
+            return new MStorage(_maxWeight, _tfStorageNote.getText());
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(_tfMaxWeight, "Sức chứa phải là số");
+        }
+        
+        if (Float.parseFloat(_tfMaxWeight.getText()) <= 0){
+            JOptionPane.showMessageDialog(_tfMaxWeight, "Sức chứa phải lớn hơn 0");
+            return null;
+        }
+        
+        return null;
+    }
+    
+    public MStorage getFromTable(JTable _tblStorage){
+        int row = _tblStorage.getSelectedRow();
+        DefaultTableModel dtModel = (DefaultTableModel)_tblStorage.getModel();
+        
+        int _storageId = Integer.parseInt(dtModel.getValueAt(row, 0).toString());
+        
+        return new MStorage(_storageId);
     }
 
     public int getStorageId() {
@@ -72,10 +115,41 @@ public class MStorage extends Database{
         this.storageNote = storageNote;
     }
     
+    public float getUsedPercent(int _storageId){
+        float current, max;
+        
+        try{                        
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, dbUsername, dbPassword);
+            
+            query = """
+                    SELECT khoiluong_hientai, suc_chua
+                    FROM danhmuc_kho
+                    WHERE ma_kho = ?;
+                    """;
+            pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, _storageId);
+            
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                current = rs.getFloat(1);
+                max = rs.getFloat(2);
+                
+                return current/max;
+            }
+        }
+        catch (Exception e){
+            System.out.println("MStorage.getUsedPercent\n"+e);
+        }
+        
+        return 0;
+    }
+    
     public Object[] toObjectArr(){
         return new Object[]{storageId, currentWeight, maxWeight, storageNote};
     }
     
+   
     public ArrayList<MStorage> getAll(){
         ArrayList<MStorage> storageData = new ArrayList<>();
         
@@ -102,17 +176,17 @@ public class MStorage extends Database{
             }
         }
         catch (Exception e){
-            System.out.println("Error in MStorage.getAll()");
+            System.out.println("Error in MStorage.getAll()\n" + e);
         }
         
         return storageData;
     }
     
-    public ArrayList<MStorageDetail> getDetail(){
+    public ArrayList<MStorageDetail> getDetail(int _storageId){
         ArrayList<MStorageDetail> _storageDetail = new ArrayList<>();
         
         int _productId;
-        String _productName, _productNote;
+        String _productName;
         float _productWeight;
         
         try{            
@@ -126,7 +200,7 @@ public class MStorage extends Database{
                     WHERE chitiet_kho.ma_kho = ?;
                     """;
             pstmt = connection.prepareStatement(query);
-            pstmt.setInt(1, storageId);
+            pstmt.setInt(1, _storageId);
             
             rs = pstmt.executeQuery();
             while (rs.next()){
