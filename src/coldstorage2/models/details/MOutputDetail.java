@@ -64,5 +64,7 @@ public class MOutputDetail extends Database{
         this.outputNote = outputNote;
     }
     
-    
+    public Object[] toObjArr(){
+        return new Object[]{outputId, outputNum, storageId, weight, outputNote};
+    }
 }

@@ -5,12 +5,17 @@ import coldstorage2.models.MInput;
 import coldstorage2.models.details.MInputDetail;
 
 import java.sql.DriverManager;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 interface ICInput{
     
 }
 
 public class CInput extends Database{
+    private final MInput inputFn = new MInput();
+    private final MInputDetail inputDetailFn = new MInputDetail();
+    
     public CInput(){}
     
     public boolean insert(MInput _input){
@@ -82,6 +87,20 @@ public class CInput extends Database{
         return false;    
     }
     
+    public void show(JTable _tblInput){
+        DefaultTableModel dtModel = (DefaultTableModel)_tblInput.getModel();
+        dtModel.setRowCount(0);
+        
+        try{
+            for (MInput _input: inputFn.getAll()){
+                dtModel.addRow(_input.toObjArr());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error in CInput.show");
+        }
+    }
+    
     public boolean insert(MInputDetail _inputDetail){
         try {
             Class.forName("org.postgresql.Driver");            
@@ -151,5 +170,19 @@ public class CInput extends Database{
         }
         
         return false;
+    }
+    
+    public void showDetail(JTable _tblInputDetail){
+        DefaultTableModel dtModel = (DefaultTableModel)_tblInputDetail.getModel();
+        dtModel.setRowCount(0);
+        
+        try{
+            for (MInputDetail _inputDetail: inputFn.getDetail()){
+                dtModel.addRow(_inputDetail.toObjArr());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error in CInput.showDetail");
+        }
     }
 }

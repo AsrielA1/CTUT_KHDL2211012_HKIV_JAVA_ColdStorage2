@@ -16,6 +16,8 @@ public class MInput extends Database{
     private float totalWeight;
     private float totalCost;
     private String inputNote;
+    
+    public MInput(){}
 
     public MInput(int inputId, Date inputDateTime, float totalWeight, float totalCost, String inputNote) {
         this.inputId = inputId;
@@ -140,7 +142,7 @@ public class MInput extends Database{
         return inputs;
     }
     
-    public ArrayList<MInputDetail> getInputDetail(){
+    public ArrayList<MInputDetail> getDetail(){
         ArrayList<MInputDetail> inputDetails = new ArrayList<>();
         
         int _inputNum, _storageId;

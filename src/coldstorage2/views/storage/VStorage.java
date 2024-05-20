@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package coldstorage2.views;
+package coldstorage2.views.storage;
 
 /**
  *
@@ -40,6 +40,10 @@ public class VStorage extends javax.swing.JFrame {
         tfCurrentWeight = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tfNote = new javax.swing.JTextArea();
+        jButton4 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -60,34 +64,44 @@ public class VStorage extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(491, 0, 790, 720));
 
         jLabel1.setText("Mã kho");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
         jLabel2.setText("Khối lượng hiện tại");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
 
         jLabel3.setText("Sức chứa");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, -1));
 
         jLabel4.setText("Ghi chú");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, -1, -1));
 
         jButton1.setText("Thêm");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 420, -1, -1));
 
         jButton2.setText("Sửa");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 330, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 470, -1, -1));
 
         jButton3.setText("Xóa");
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 330, -1, -1));
-        getContentPane().add(tfMaxWeight, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 250, -1));
-        getContentPane().add(tfStorageId, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 250, -1));
-        getContentPane().add(tfCurrentWeight, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 250, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 470, -1, -1));
+        getContentPane().add(tfMaxWeight, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 250, -1));
+        getContentPane().add(tfStorageId, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, 70, -1));
+        getContentPane().add(tfCurrentWeight, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 250, -1));
 
         tfNote.setColumns(20);
         tfNote.setRows(5);
         jScrollPane2.setViewportView(tfNote);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, -1, -1));
+
+        jButton4.setText("Xem chi tiết");
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 420, -1, -1));
+
+        jLabel5.setText("Danh mục kho");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 220, 50));
+
+        jButton5.setText("Tìm");
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 380, -1, -1));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 270, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -131,13 +145,17 @@ public class VStorage extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField tfCurrentWeight;
     private javax.swing.JTextField tfMaxWeight;
     private javax.swing.JTextArea tfNote;

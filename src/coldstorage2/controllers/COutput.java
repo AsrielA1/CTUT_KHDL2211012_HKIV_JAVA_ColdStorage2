@@ -3,9 +3,15 @@ package coldstorage2.controllers;
 import coldstorage2.general.Database;
 import coldstorage2.models.MOutput;
 import coldstorage2.models.details.MOutputDetail;
+
 import java.sql.DriverManager;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 public class COutput extends Database{
+    private final MOutput outputFn = new MOutput();
+    
     public COutput(){}
         
     public boolean insert(MOutput _output){
@@ -77,6 +83,20 @@ public class COutput extends Database{
         return false;    
     }
     
+    public void show(JTable _tblOutput){
+        DefaultTableModel dtModel = (DefaultTableModel)_tblOutput.getModel();
+        dtModel.setRowCount(0);
+        
+        try{
+            for (MOutput _output: outputFn.getAll()){
+                dtModel.addRow(_output.toObjArr());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error in COutput.show()");
+        }
+    }
+    
     public boolean insert(MOutputDetail _outputDetail){
         try {
             Class.forName("org.postgresql.Driver");            
@@ -146,5 +166,20 @@ public class COutput extends Database{
         }
         
         return false;
+    }
+    
+    public void showDetail(JTable _tblOutputDetail){
+        DefaultTableModel dtModel = (DefaultTableModel)_tblOutputDetail.getModel();
+        dtModel.setNumRows(0);
+        
+        try{
+            for (MOutputDetail _outputDetail: outputFn.getDetail()){
+                dtModel.addRow(_outputDetail.toObjArr());
+            }
+            
+        }
+        catch (Exception e){
+            System.out.println("Error in COutput.showDetail");
+        }
     }
 }

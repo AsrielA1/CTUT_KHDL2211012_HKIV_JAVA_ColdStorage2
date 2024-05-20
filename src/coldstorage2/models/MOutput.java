@@ -99,6 +99,10 @@ public class MOutput extends Database{
         this.outputNote = outputNote;
     }
     
+    public Object[] toObjArr(){
+        return new Object[]{outputId, outputDate, outputTime, totalWeight, totalRevenue, outputNote};
+    }
+    
     public ArrayList<MOutput> getAll(){
         ArrayList<MOutput> outputs = new ArrayList<>();
         

@@ -9,6 +9,8 @@ public class MInputDetail extends Database{
     private int storageId;
     private float inputWeight;
     private String inputNote;
+    
+    public MInputDetail(){}
 
     public MInputDetail(int inputId, int inputNum, int storageId, float inputWeight, String inputNote) {
         this.inputId = inputId;
@@ -63,6 +65,10 @@ public class MInputDetail extends Database{
 
     public void setInputNote(String inputNote) {
         this.inputNote = inputNote;
+    }
+    
+    public Object[] toObjArr(){
+        return new Object[]{inputId, inputNum, storageId, inputWeight, inputNote};
     }
     
 }
